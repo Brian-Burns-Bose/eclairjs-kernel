@@ -2,6 +2,7 @@ import os
 import signal
 import sys
 import time
+import io
 
 from os import O_NONBLOCK, read
 from fcntl import fcntl, F_GETFL, F_SETFL
@@ -72,7 +73,7 @@ class EclairJSKernel(MetaKernel):
         ]
 
         self.gateway_proc = Popen(args, stdout=PIPE, stderr=PIPE)
-        time.sleep(5)
+        time.sleep(3)
         self.gateway = JavaGateway(
                 start_callback_server=True,
                 callback_server_parameters=CallbackServerParameters())
@@ -93,6 +94,49 @@ class EclairJSKernel(MetaKernel):
         cb = ForeachRDDListener(self)
         self.gateway.entry_point.registerCallback(cb)
 
+    def Error(self, output):
+        if not output:
+            return
+        
+        super(EclairJSKernel, self).Error(output)
+        """
+        lines = [s.strip() for s in output.splitlines()]
+        for l in lines:
+            super(EclairJSKernel, self).Error(l.strip())
+            try:
+                l = l.decode('utf-8')
+                level = l.split(' ')[2]
+                if level == 'INFO':
+                    self.log.info(l)
+                elif level == 'WARN':
+                    self.log.warn(l)
+                elif level == 'ERROR':
+                    self.log.error(l)
+                elif level == 'FATAL':
+                    self.log.fatal(l)
+                else:
+                    super(EclairJSKernel, self).Error(l)
+            except:
+                super(EclairJSKernel, self).Error(l)
+        """
+
+
+    def handle_output(self, fd, fn):
+        stringIO = io.StringIO()
+        while True:
+            try:
+                b = read(fd.fileno(), 1024)
+                if b:
+                    stringIO.write(b.decode('utf-8'))
+            except OSError:
+                break
+
+        s = stringIO.getvalue()
+        if s:
+            fn(s)
+
+        stringIO.close()
+
     def do_execute_direct(self, code, silent=False):
         """
         :param code:
@@ -109,20 +153,9 @@ class EclairJSKernel(MetaKernel):
 
         retval = None
         try:
-            #self.log.error(code)
             retval = self.gateway.entry_point.eval(code.rstrip())
-
-            while True:
-                try:
-                    self.Print(read(self.gateway_proc.stdout.fileno(), 1024))
-                except OSError:
-                    break
-
-            while True:
-                try:
-                    self.Error(read(self.gateway_proc.stderr.fileno(), 1024))
-                except OSError:
-                    break
+            self.handle_output(self.gateway_proc.stdout, self.Print)
+            self.handle_output(self.gateway_proc.stderr, self.Error)
         except Py4JError as e:
             if not silent:
                 self.Error(e.cause)
@@ -130,5 +163,9 @@ class EclairJSKernel(MetaKernel):
         if not retval:
             return
         else:
-            return TextOutput(retval)
+            self.log.error(retval)
+            try:
+                return eval(retval)
+            except:
+                return TextOutput(retval)
 
