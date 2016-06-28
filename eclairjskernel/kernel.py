@@ -72,8 +72,8 @@ class EclairJSKernel(MetaKernel):
             self._ECLAIRJS_LOCATION
         ]
 
-        self.gateway_proc = Popen(args, stdout=PIPE, stderr=PIPE)
-        time.sleep(3)
+        self.gateway_proc = Popen(args, stderr=PIPE, stdout=PIPE)
+        time.sleep(1.5)
         self.gateway = JavaGateway(
                 start_callback_server=True,
                 callback_server_parameters=CallbackServerParameters())
@@ -133,7 +133,7 @@ class EclairJSKernel(MetaKernel):
 
         s = stringIO.getvalue()
         if s:
-            fn(s)
+            fn(s.strip())
 
         stringIO.close()
 
@@ -160,12 +160,9 @@ class EclairJSKernel(MetaKernel):
             if not silent:
                 self.Error(e.cause)
 
-        if not retval:
+        if retval is None:
             return
+        elif isinstance(retval, str):
+            return TextOutput(retval)
         else:
-            self.log.error(retval)
-            try:
-                return eval(retval)
-            except:
-                return TextOutput(retval)
-
+            return retval
