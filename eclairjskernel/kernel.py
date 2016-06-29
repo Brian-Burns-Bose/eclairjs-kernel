@@ -3,6 +3,7 @@ import signal
 import sys
 import time
 import io
+import json
 
 from os import O_NONBLOCK, read
 from fcntl import fcntl, F_GETFL, F_SETFL
@@ -27,9 +28,17 @@ class ForeachRDDListener(object):
         self.kernel = kernel
 
     def call(self, comm_id, msg):
-        self.kernel.log.error("got message " + msg)
-        self.kernel.comm_manager.get_comm(comm_id).send(msg)
-        self.kernel.log.error("message sent")
+        m = None
+        if isinstance(msg, str):
+            try:
+                m = json.loads(msg)
+            except ValueError as e:
+                m = TextOutput(msg)
+        else:
+            self.kernel.log.error("not string")
+            m = msg
+
+        self.kernel.comm_manager.get_comm(comm_id).send(m)
         return None
 
     class Java:
