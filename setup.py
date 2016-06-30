@@ -59,5 +59,6 @@ setup(name='eclairjs-kernel',
       author_email='brian.p.burns@gmail.com',
       license='Apache 2',
       install_requires=["IPython >= 4.0", "ipykernel", "metakernel"],
-      cmdclass={'install': install_with_kernelspec}
+      cmdclass={'install': install_with_kernelspec},
+      packages=['eclairjskernel']
 )
