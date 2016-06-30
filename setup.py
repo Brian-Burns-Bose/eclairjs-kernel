@@ -22,6 +22,11 @@ kernel_json = {
     }
 }
 
+svem_flag = '--single-version-externally-managed'
+if svem_flag in sys.argv:
+    # Die, setuptools, die.
+    sys.argv.remove(svem_flag)
+            
 class install_with_kernelspec(install):
 
     def run(self):
