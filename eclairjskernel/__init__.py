@@ -1,1 +1,1 @@
-from .kernel import EclairJSKernel
+from .eclairjskernel import EclairJSKernel
