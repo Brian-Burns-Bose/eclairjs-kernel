@@ -14,8 +14,11 @@ Installation
 **Development version**
 
 .. code-block:: bash
+
    export SPARK_HOME="<spark 1.6.0 distribution>"
+
    export ECLAIRJS_NASHORN_HOME="<location of eclairjs-nashron jar>"
+
    pip install git+https://github.com/bpburns/eclairjs-kernel.git
 
 Requires
