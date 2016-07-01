@@ -1,9 +1,9 @@
 ####################################
-A Jupyter/IPython kernel for Gnuplot
+A Jupyter/IPython kernel for EclairJS
 ####################################
 
-`eclairjs-kernel` has been developed for use specifically with
-`Jupyter Notebook`. It can also be loaded as an `IPython`
+eclairjs-kernel has been developed for use specifically with
+`Jupyter Notebook` and eclairjs-node. It can also be loaded as an `IPython`
 extension allowing for `eclairjs` code in the same `notebook`
 as `python` code.
 
@@ -20,7 +20,7 @@ Installation
 Requires
 ========
 
-- System installation of `Apache Spark 1.6.0`_
-- System installation of `eclarjs-nashorn >= 0.5`_
-- `Notebook`_ (IPython/Jupyter Notebook)
-- `Metakernel`_
+- System installation of Apache Spark 1.6.0
+- System installation of eclarjs-nashorn >= 0.5
+- Notebook (IPython/Jupyter Notebook >= 4.0)
+- Metakernel
