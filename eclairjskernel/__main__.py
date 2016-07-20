@@ -1,5 +1,4 @@
-from kernel import EclairJSKernel
-
+from eclairjskernel.kernel import EclairJSKernel
 
 if __name__ == '__main__':
     try:
