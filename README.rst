@@ -17,14 +17,14 @@ Installation
 
    export SPARK_HOME="<spark 1.6.0 distribution>"
 
-   export ECLAIRJS_NASHORN_HOME="<location of eclairjs-nashron jar>"
+   export ECLAIRJS_NASHORN_JAR="<location of eclairjs-nashron jar>"
 
    pip install git+https://github.com/bpburns/eclairjs-kernel.git
 
 Requires
 ========
 
-- System installation of Apache Spark 1.6.0
-- System installation of eclarjs-nashorn >= 0.5
+- System installation of Apache Spark 2.0
+- System installation of eclarjs-nashorn spark2.0 branch
 - Notebook (IPython/Jupyter Notebook >= 4.0)
 - Metakernel

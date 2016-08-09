@@ -8,7 +8,7 @@ from distutils.command.install import install
 
 kernel_json = {
     "name": "eclair",
-    "display_name": "Spark 1.6.0 (EclairJS Kernel)",
+    "display_name": "Spark 2.0 (EclairJS Kernel)",
     "language": "javascript",
     "argv": [
         sys.executable,
@@ -17,7 +17,7 @@ kernel_json = {
         "{connection_file}"
     ],
     "env": {
-        "ECLAIRJS_NASHORN_HOME": os.environ['ECLAIRJS_NASHORN_HOME'],
+        "ECLAIRJS_NASHORN_JAR": os.environ['ECLAIRJS_NASHORN_JAR'],
         "SPARK_HOME": os.environ['SPARK_HOME']
     }
 }
@@ -58,7 +58,7 @@ setup(name='eclairjs-kernel',
       author='Brian Burns',
       author_email='brian.p.burns@gmail.com',
       license='Apache 2',
-      install_requires=["IPython >= 4.0", "ipykernel", "metakernel"],
+      install_requires=["IPython >= 4.0", "ipykernel", "metakernel", "py4j"],
       cmdclass={'install': install_with_kernelspec},
       packages=['eclairjskernel']
 )
