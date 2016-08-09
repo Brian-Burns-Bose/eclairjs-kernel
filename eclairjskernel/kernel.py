@@ -56,7 +56,7 @@ class EclairJSKernel(MetaKernel):
                      'file_extension': '.js'}
 
     _SPARK_COMMAND = '{}/bin/spark-submit'.format(os.environ['SPARK_HOME'])
-    _ECLAIRJS_LOCATION = os.environ['ECLAIRJS_NASHORN_HOME']
+    _ECLAIRJS_LOCATION = os.environ['ECLAIRJS_NASHORN_JAR']
 
 
     def __init__(self, **kwargs):
