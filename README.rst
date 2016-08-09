@@ -15,7 +15,7 @@ Installation
 
 .. code-block:: bash
 
-   export SPARK_HOME="<spark 1.6.0 distribution>"
+   export SPARK_HOME="<spark 2.0 distribution>"
 
    export ECLAIRJS_NASHORN_JAR="<location of eclairjs-nashron jar>"
 
