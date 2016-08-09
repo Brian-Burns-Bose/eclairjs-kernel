@@ -19,7 +19,7 @@ Installation
 
    export ECLAIRJS_NASHORN_JAR="<location of eclairjs-nashron jar>"
 
-   pip install git+https://github.com/bpburns/eclairjs-kernel.git
+   pip install git+https://github.com/bpburns/eclairjs-kernel.git#spark2.0
 
 Requires
 ========
